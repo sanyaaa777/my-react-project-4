@@ -2,18 +2,16 @@ import { useState, useEffect } from 'react';
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Loader from './components/Loader/Loader';
-import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
 import { fetchImages } from './api';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 function App() {
   const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [hasMore, setHasMore] = useState(false);
@@ -23,21 +21,19 @@ function App() {
 
     const loadImages = async () => {
       setIsLoading(true);
-      setError(null);
       try {
         const data = await fetchImages(query, page);
         if (!data.results || data.results.length === 0) {
-          setError('No images found. Try something else.');
+          toast.error('No images found. Try something else.');
           setImages([]);
           setHasMore(false);
           return;
         }
         setImages(prev => (page === 1 ? data.results : [...prev, ...data.results]));
         setHasMore(data.total_pages > page);
-        
       } catch (err) {
         console.error(err);
-        setError('Oops! Something went wrong. Try again.');
+        toast.error('Oops! Something went wrong. Try again.');
       } finally {
         setIsLoading(false);
       }
@@ -67,10 +63,9 @@ function App() {
     <div>
       <Toaster position="top-right" />
       <SearchBar onSubmit={handleSearch} />
-      {error && <ErrorMessage message={error} onRetry={() => setError(null)} />}
       <ImageGallery images={images} onImageClick={openModal} />
       {isLoading && <Loader />}
-      {hasMore && !isLoading && !error && <LoadMoreBtn onClick={handleLoadMore} />}
+      {hasMore && !isLoading && <LoadMoreBtn onClick={handleLoadMore} />}
       {showModal && <ImageModal image={selectedImage} onClose={closeModal} />}
     </div>
   );
