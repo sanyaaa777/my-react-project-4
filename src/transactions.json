@@ -1,0 +1,8 @@
+[
+    {"id": "1", "type": "Invoice", "amount": "125.00", "currency": "USD"},
+    {"id": "2", "type": "Withdrawal", "amount": "85.50", "currency": "EUR"},
+    {"id": "3", "type": "Deposit", "amount": "550.00", "currency": "USD"},
+    {"id": "4", "type": "Payment", "amount": "200.00", "currency": "BTC"},
+    {"id": "5", "type": "Invoice", "amount": "300.00", "currency": "USD"}
+  ]
+  
