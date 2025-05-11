@@ -23,14 +23,21 @@ function App() {
 
     const loadImages = async () => {
       setIsLoading(true);
+      setError(null);
       try {
         const data = await fetchImages(query, page);
-        setImages((prev) =>
-          page === 1 ? data.results : [...prev, ...data.results],
-        );
+        if (!data.results || data.results.length === 0) {
+          setError('No images found. Try something else.');
+          setImages([]);
+          setHasMore(false);
+          return;
+        }
+        setImages(prev => (page === 1 ? data.results : [...prev, ...data.results]));
         setHasMore(data.total_pages > page);
+        
       } catch (err) {
-        setError('Failed to fetch images');
+        console.error(err);
+        setError('Oops! Something went wrong. Try again.');
       } finally {
         setIsLoading(false);
       }
@@ -39,7 +46,7 @@ function App() {
     loadImages();
   }, [query, page]);
 
-  const handleSearch = (value) => {
+  const handleSearch = value => {
     if (!value.trim()) {
       toast.error('Please enter a search term');
       return;
@@ -49,8 +56,8 @@ function App() {
     setPage(1);
   };
 
-  const handleLoadMore = () => setPage((prev) => prev + 1);
-  const openModal = (image) => {
+  const handleLoadMore = () => setPage(prev => prev + 1);
+  const openModal = image => {
     setSelectedImage(image);
     setShowModal(true);
   };
@@ -58,12 +65,12 @@ function App() {
 
   return (
     <div>
-      <Toaster />
+      <Toaster position="top-right" />
       <SearchBar onSubmit={handleSearch} />
-      {error && <ErrorMessage message={error} />}
+      {error && <ErrorMessage message={error} onRetry={() => setError(null)} />}
       <ImageGallery images={images} onImageClick={openModal} />
       {isLoading && <Loader />}
-      {hasMore && !isLoading && <LoadMoreBtn onClick={handleLoadMore} />}
+      {hasMore && !isLoading && !error && <LoadMoreBtn onClick={handleLoadMore} />}
       {showModal && <ImageModal image={selectedImage} onClose={closeModal} />}
     </div>
   );
