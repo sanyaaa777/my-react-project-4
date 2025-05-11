@@ -1,20 +1,29 @@
-import FriendListItem from './FriendListItem';
-import styles from './FriendList.module.css';
+import { useState } from 'react';
+import styles from './SearchBar.module.css';
 
-const FriendList = ({ friends }) => {
+function SearchBar({ onSubmit }) {
+  const [value, setValue] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(value);
+  };
+
   return (
-    <ul className={styles.friendList}>
-      {friends.map(friend => (
-        <li key={friend.id} className={styles.item}>
-          <FriendListItem
-            avatar={friend.avatar}
-            name={friend.name}
-            isOnline={friend.isOnline}
-          />
-        </li>
-      ))}
-    </ul>
+    <header className={styles.header}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <input
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+    </header>
   );
-};
+}
 
-export default FriendList;
+export default SearchBar;

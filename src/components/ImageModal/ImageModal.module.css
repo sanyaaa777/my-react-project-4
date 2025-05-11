@@ -1,0 +1,44 @@
+.overlay {
+    background-color: rgba(0, 0, 0, 0.75);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modalContent {
+    background: white;
+    border-radius: 10px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    outline: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .modalBody {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    max-height: 60vh;
+  }
+  
+  .info {
+    font-size: 14px;
+    color: #333;
+  }

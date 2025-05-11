@@ -1,31 +1,16 @@
-import styles from './Profile.module.css';
+import ImageCard from '../ImageCard/ImageCard';
+import styles from './ImageGallery.module.css';
 
-const Profile = ({ name, tag, location, image, stats }) => {
+function ImageGallery({ images, onImageClick }) {
   return (
-    <div className={styles.profile}>
-      <div className={styles.description}>
-        <img src={image} alt="User avatar" className={styles.avatar} />
-        <p className={styles.name}>{name}</p>
-        <p className={styles.tag}>@{tag}</p>
-        <p className={styles.location}>{location}</p>
-      </div>
-
-      <ul className={styles.stats}>
-        <li>
-          <span className={styles.label}>Followers</span>
-          <span className={styles.quantity}>{stats.followers}</span>
+    <ul className={styles.gallery}>
+      {images.map((img) => (
+        <li key={img.id}>
+          <ImageCard image={img} onClick={() => onImageClick(img)} />
         </li>
-        <li>
-          <span className={styles.label}>Views</span>
-          <span className={styles.quantity}>{stats.views}</span>
-        </li>
-        <li>
-          <span className={styles.label}>Likes</span>
-          <span className={styles.quantity}>{stats.likes}</span>
-        </li>
-      </ul>
-    </div>
+      ))}
+    </ul>
   );
-};
+}
 
-export default Profile;
+export default ImageGallery;
