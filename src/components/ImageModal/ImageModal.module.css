@@ -31,12 +31,15 @@
   
   .image {
     width: 100%;
-    height: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
     display: block;
     margin-bottom: 15px;
     border-radius: 6px;
-    max-height: auto;
   }
+  
   
   .info {
     font-size: 14px;
